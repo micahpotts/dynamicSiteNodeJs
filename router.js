@@ -1,3 +1,5 @@
+const Profile = require("./profile.js");
+
 // handle http route GET / and POST / i.e. home
 const home = (request, response) => {
   //if url == '/' && GET
@@ -21,13 +23,32 @@ const user = (request, response) => {
     response.statusCode = 200;
     response.setHeader('Content-Type', 'text/plain');
     response.write('Header\n');
-    response.write(username + '\n');
-    response.end('Footer\n');
+
     //get json from Treehouse
-      //on "end"
-        //show profile
-      //on "error"
-        //show error
+    let studentProfile = new Profile(username);
+    //on "end"
+    studentProfile.on("end", (profileJSON) => {
+      //show profile
+
+      //store the values we need
+      let values = {
+        avatarUrl: profileJSON.gravatar_url,
+        username: profileJSON.profile_name,
+        badges: profileJSON.badges.length,
+        javascriptPoints: profileJSON.points.JavaScript
+      }
+      //simple response
+      response.write(values.username + ' has ' + values.badges + ' badges\n');
+      response.end('Footer\n');
+    });
+
+    //on "error"
+    studentProfile.on("error", (error) => {
+      //show error
+      response.write(error.message + '\n');
+      response.end('Footer\n');
+    });
+
   }
 }
 

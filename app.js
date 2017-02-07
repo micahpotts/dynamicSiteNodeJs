@@ -1,4 +1,4 @@
-const router = require("/router.js");
+const router = require("./router.js");
 //Problem: We need a simple way to look at a user's badge count and JS points from a web browser
 //Solution: Use node.js to perform the profile lookups and serve our templates via http
 
