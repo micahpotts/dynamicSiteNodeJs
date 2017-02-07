@@ -27,7 +27,7 @@ const user = (request, response) => {
     renderer.view('header', {}, response);
 
     //get json from Treehouse
-    let studentProfile = new Profile(username);
+    const studentProfile = new Profile(username);
     //on "end"
     studentProfile.on("end", (profileJSON) => {
       //show profile
@@ -40,7 +40,7 @@ const user = (request, response) => {
         javascriptPoints: profileJSON.points.JavaScript
       }
       //simple response
-      renderer.view('profile', {values}, response);
+      renderer.view('profile', values, response);
       renderer.view('footer', {}, response);
       response.end();
     });
